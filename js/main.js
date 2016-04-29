@@ -19,13 +19,16 @@ jQuery(document).ready(function($){
 
 	productViewer.prototype.loadFrames = function() {
 		var self = this,
-			imageUrl = this.slideShow.data('image');
+			imageUrl = this.slideShow.data('image'),
+			newImg = $('<img/>');
+		this.loading('0.5');
 		//you need this to check if the image sprite has been loaded
-		$('<img/>').attr('src', imageUrl).load(function() {
+		newImg.load(function() {
+			$(this).remove();
 			self.loaded = true;
 		});
 
-		this.loading('0.5');
+		setTimeout(function(){newImg.attr('src', imageUrl)}, 50);
 	}
 
 	productViewer.prototype.loading = function(percentage) {
