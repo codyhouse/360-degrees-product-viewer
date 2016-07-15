@@ -23,12 +23,15 @@ jQuery(document).ready(function($){
 			newImg = $('<img/>');
 		this.loading('0.5');
 		//you need this to check if the image sprite has been loaded
-		newImg.load(function() {
+		newImg.attr('src', imageUrl).load(function() {
 			$(this).remove();
-			self.loaded = true;
+  			self.loaded = true;
+  		}).each(function(){
+  			image = this;
+			if(image.complete) {
+		    	$(image).trigger('load');
+		  	}
 		});
-
-		setTimeout(function(){newImg.attr('src', imageUrl)}, 50);
 	}
 
 	productViewer.prototype.loading = function(percentage) {
@@ -46,6 +49,8 @@ jQuery(document).ready(function($){
 				var newPercentage = parseFloat(percentage) + .1;
 				if ( newPercentage < 1 ) {
 					self.loading(newPercentage);
+				} else {
+					self.loading(parseFloat(percentage));
 				}
 			}
 		}, 500);
